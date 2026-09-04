@@ -1,0 +1,21 @@
+node_modules/
+.next/
+.env.local
+.env
+.DS_Store
+*.log
+*.txt
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.zip
+*.7z
+*.rar
+*.dll
+*.msi
+*.exe
+*.lnk
+Cyberpunk\ 2077/
+WXQLauncher/
+九步诗游戏/
