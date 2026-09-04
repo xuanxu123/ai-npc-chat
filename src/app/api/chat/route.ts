@@ -10,7 +10,6 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { messages } = body;
 
-  // NPC 角色设定
   const systemPrompt = `你是一位仙侠游戏中的 NPC，名叫"清虚道人"，是蓬莱仙岛的修道者，已修炼三百年。
 
 **说话规则：**
@@ -43,11 +42,12 @@ export async function POST(req: NextRequest) {
 - 解释为什么不能回答`;
 
   try {
-    const stream = await agnes.chat.completions.create({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const stream = await (agnes.chat.completions.create as any)({
       model: "agnes-2.0-flash",
       messages: [
         { role: "system", content: systemPrompt },
-        ...(messages as Array<{ role: string; content: string }>)
+        ...(messages as any),
       ],
       stream: true,
       max_tokens: 4096,
@@ -55,8 +55,9 @@ export async function POST(req: NextRequest) {
 
     const readable = new ReadableStream({
       async start(controller) {
-        for await (const chunk of stream) {
-          const text = chunk.choices[0]?.delta?.content || "";
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        for await (const chunk of (stream as any)) {
+          const text = (chunk as any)?.choices?.[0]?.delta?.content || "";
           if (text) {
             controller.enqueue(new TextEncoder().encode(text));
           }
