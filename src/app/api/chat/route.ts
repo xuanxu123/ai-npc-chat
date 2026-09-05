@@ -1,14 +1,19 @@
 import { OpenAI } from "openai";
 import { NextRequest, NextResponse } from "next/server";
 
-const agnes = new OpenAI({
-  baseURL: "https://apihub.agnes-ai.com/v1",
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
-
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { messages } = body;
+
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: "ANTHROPIC_API_KEY is not configured" }, { status: 500 });
+  }
+
+  const agnes = new OpenAI({
+    baseURL: "https://apihub.agnes-ai.com/v1",
+    apiKey: apiKey,
+  });
 
   const systemPrompt = `你是一位仙侠游戏中的 NPC，名叫"清虚道人"，是蓬莱仙岛的修道者，已修炼三百年。
 
