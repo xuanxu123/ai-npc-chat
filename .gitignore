@@ -19,3 +19,8 @@ node_modules/
 Cyberpunk\ 2077/
 WXQLauncher/
 九步诗游戏/
+
+.vercel
+.env*
+.open-next/
+wrangler.jsonc
